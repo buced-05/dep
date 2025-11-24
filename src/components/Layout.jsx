@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   AppBar,
@@ -19,6 +19,7 @@ import {
 import { alpha } from '@mui/material/styles'
 import MenuIcon from '@mui/icons-material/Menu'
 import Footer from './Footer'
+import { incrementAdminClicks } from '../utils/security'
 
 const menuItems = [
   { label: 'Accueil', path: '/' },
@@ -33,6 +34,13 @@ function Layout({ children }) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [clickCount, setClickCount] = useState(0)
+
+  useEffect(() => {
+    // Récupérer le compteur depuis localStorage au chargement
+    const stored = parseInt(localStorage.getItem('admin_clicks') || '0', 10)
+    setClickCount(stored)
+  }, [])
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -42,6 +50,18 @@ function Layout({ children }) {
     navigate(path)
     if (isMobile) {
       setMobileOpen(false)
+    }
+  }
+
+  const handleTitleClick = () => {
+    const newCount = incrementAdminClicks()
+    setClickCount(newCount)
+    
+    // Feedback visuel discret
+    if (newCount < 3) {
+      console.log(`Clics admin: ${newCount}/3`)
+    } else {
+      console.log('Accès admin activé')
     }
   }
 
@@ -91,11 +111,18 @@ function Layout({ children }) {
           <Typography
             variant="h6"
             component="div"
+            onClick={handleTitleClick}
             sx={{ 
               flexGrow: 1, 
               fontWeight: 800,
               fontSize: { xs: '1rem', md: '1.25rem' },
               color: '#ff6b35',
+              cursor: 'pointer',
+              userSelect: 'none',
+              transition: 'opacity 0.2s ease',
+              '&:active': {
+                opacity: 0.7,
+              },
             }}
           >
             Dr YOUAN Bi Tra Jean Claude

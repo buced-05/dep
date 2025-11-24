@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Box,
@@ -22,13 +22,14 @@ import {
 import { styled, alpha } from '@mui/material/styles'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { saveInscription, exportToCSV, getStats } from '../utils/dataStorage'
+import { checkAdminAccess, sanitizeInput, validateInscriptionData, checkRateLimit } from '../utils/security'
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
-  background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${alpha(theme.palette.primary.main, 0.02)} 100%)`,
-  border: `2px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-  borderRadius: theme.spacing(3),
-  boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.1)}`,
+  background: '#ffffff',
+  border: `1px solid ${alpha('#ff6b35', 0.15)}`,
+  borderRadius: theme.spacing(2),
+  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(3),
   },
@@ -55,6 +56,30 @@ function Inscription() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [showAdminPanel, setShowAdminPanel] = useState(false)
+  
+  useEffect(() => {
+    // Vérifier l'accès admin au chargement
+    setShowAdminPanel(checkAdminAccess())
+    
+    // Écouter les changements dans localStorage
+    const handleStorageChange = () => {
+      setShowAdminPanel(checkAdminAccess())
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    // Vérifier périodiquement (pour les changements dans le même onglet)
+    const interval = setInterval(() => {
+      setShowAdminPanel(checkAdminAccess())
+    }, 1000)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(interval)
+    }
+  }, [])
+  
   const {
     register,
     handleSubmit,
@@ -75,7 +100,37 @@ function Inscription() {
     setError(null)
 
     try {
-      const success = saveInscription(data)
+      // Vérification du rate limiting
+      if (!checkRateLimit('inscription', 5, 60000)) {
+        setError('Trop de tentatives. Veuillez patienter avant de réessayer.')
+        setLoading(false)
+        return
+      }
+
+      // Sanitization des données
+      const sanitizedData = {
+        nom: sanitizeInput(data.nom),
+        prenom: sanitizeInput(data.prenom),
+        telephone: sanitizeInput(data.telephone),
+        email: sanitizeInput(data.email),
+        pays: sanitizeInput(data.pays),
+        ville: sanitizeInput(data.ville),
+        localite: sanitizeInput(data.localite),
+        profession: sanitizeInput(data.profession || ''),
+        typeEngagement: sanitizeInput(data.typeEngagement),
+        recevoirActualites: data.recevoirActualites,
+        accepterContact: data.accepterContact,
+      }
+
+      // Validation de sécurité
+      const validation = validateInscriptionData(sanitizedData)
+      if (!validation.isValid) {
+        setError(validation.errors[0] || 'Données invalides')
+        setLoading(false)
+        return
+      }
+
+      const success = saveInscription(sanitizedData)
       if (success) {
         setSubmitted(true)
         reset()
@@ -146,7 +201,7 @@ function Inscription() {
                 transform: 'translateX(-50%)',
                 width: 100,
                 height: 4,
-                background: `linear-gradient(90deg, ${alpha('#6a1b9a', 0)}, #6a1b9a, ${alpha('#6a1b9a', 0)})`,
+                background: `linear-gradient(90deg, ${alpha('#ff6b35', 0)}, #ff6b35, ${alpha('#2e7d32', 0.5)}, ${alpha('#ff6b35', 0)})`,
                 borderRadius: 2,
               },
             }}
@@ -356,12 +411,12 @@ function Inscription() {
                 sx={{
                   p: 3,
                   borderRadius: 2,
-                  background: `linear-gradient(135deg, ${alpha('#6a1b9a', 0.08)} 0%, ${alpha('#1976d2', 0.08)} 100%)`,
-                  border: `2px solid ${alpha('#6a1b9a', 0.15)}`,
+                  background: `linear-gradient(135deg, ${alpha('#ff6b35', 0.05)} 0%, ${alpha('#2e7d32', 0.05)} 100%)`,
+                  border: `1px solid ${alpha('#ff6b35', 0.15)}`,
                 }}
               >
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                  <strong style={{ color: '#6a1b9a' }}>Consentement RGPD :</strong> Les données collectées sont utilisées 
+                  <strong style={{ color: '#ff6b35' }}>Consentement RGPD :</strong> Les données collectées sont utilisées 
                   uniquement dans le cadre de la campagne électorale pour vous contacter et 
                   vous informer des actualités. Vous pouvez à tout moment demander la suppression 
                   de vos données en nous contactant.
@@ -380,12 +435,12 @@ function Inscription() {
                   py: 2,
                   fontSize: '1.2rem',
                   fontWeight: 700,
-                  borderRadius: 3,
-                  boxShadow: '0 8px 24px rgba(106, 27, 154, 0.4)',
+                  borderRadius: 2,
+                  boxShadow: '0 4px 16px rgba(255, 107, 53, 0.3)',
                   '&:hover': {
                     backgroundColor: 'primary.dark',
-                    boxShadow: '0 12px 32px rgba(106, 27, 154, 0.5)',
-                    transform: 'translateY(-2px)',
+                    boxShadow: '0 6px 20px rgba(255, 107, 53, 0.4)',
+                    transform: 'translateY(-1px)',
                   },
                   transition: 'all 0.3s ease',
                 }}
@@ -397,14 +452,19 @@ function Inscription() {
         </form>
       </StyledPaper>
 
-      {stats.total > 0 && (
+      {showAdminPanel && stats.total > 0 && (
         <Card 
           elevation={0}
           sx={{ 
             mt: 6,
-            background: `linear-gradient(135deg, ${alpha('#6a1b9a', 0.08)} 0%, ${alpha('#1976d2', 0.08)} 100%)`,
-            border: `2px solid ${alpha('#6a1b9a', 0.15)}`,
+            background: `linear-gradient(135deg, ${alpha('#ff6b35', 0.08)} 0%, ${alpha('#2e7d32', 0.08)} 100%)`,
+            border: `2px solid ${alpha('#ff6b35', 0.2)}`,
             borderRadius: 3,
+            animation: 'fadeIn 0.5s ease-in',
+            '@keyframes fadeIn': {
+              from: { opacity: 0, transform: 'translateY(10px)' },
+              to: { opacity: 1, transform: 'translateY(0)' },
+            },
           }}
         >
           <CardContent sx={{ p: 3 }}>
@@ -421,7 +481,7 @@ function Inscription() {
                   fontWeight: 600,
                   '&:hover': {
                     borderColor: 'primary.dark',
-                    backgroundColor: alpha('#6a1b9a', 0.1),
+                    backgroundColor: alpha('#ff6b35', 0.1),
                   },
                 }}
               >
