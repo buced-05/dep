@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prod": "NODE_ENV=production vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "preview:prod": "vite preview --host --port 4173",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "deploy:vps": "bash deploy-vps.sh",
+    "clean": "rm -rf dist node_modules/.vite"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

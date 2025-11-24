@@ -395,20 +395,26 @@ function Home() {
               onClick={() => navigate('/inscription')}
               endIcon={<ArrowForwardIcon />}
               sx={{
-                mt: 1,
-                backgroundColor: 'secondary.main',
-                color: 'white',
-                fontSize: { xs: '1.125rem', md: '1.25rem' },
-                padding: { xs: '12px 32px', md: '14px 40px' },
-                fontWeight: 600,
-                borderRadius: 2,
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                mt: { xs: 2, md: 3 },
+                mb: { xs: 4, md: 6 },
+                backgroundColor: '#ff6b35',
+                color: '#ffffff',
+                fontSize: { xs: '1.125rem', md: '1.375rem' },
+                padding: { xs: '14px 36px', md: '16px 48px' },
+                fontWeight: 700,
+                borderRadius: 3,
+                boxShadow: '0 6px 24px rgba(255, 107, 53, 0.4)',
                 textTransform: 'none',
                 letterSpacing: '0.02em',
+                border: '2px solid transparent',
                 '&:hover': {
-                  backgroundColor: 'secondary.dark',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.5)',
-                  transform: 'translateY(-1px)',
+                  backgroundColor: '#e55a2b',
+                  boxShadow: '0 8px 32px rgba(255, 107, 53, 0.5)',
+                  transform: 'translateY(-2px)',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                },
+                '&:active': {
+                  transform: 'translateY(0)',
                 },
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
@@ -419,16 +425,30 @@ function Home() {
         </HeroBox>
 
         {/* Section Engagement Communautaire avec Carrousel */}
-        <Box sx={{ mb: { xs: 6, md: 10 } }}>
+        <Box sx={{ mb: { xs: 6, md: 10 }, mt: { xs: 4, md: 6 } }}>
           <Typography 
             variant="h3" 
             component="h2" 
             align="center" 
             sx={{ 
-              mb: { xs: 3, md: 5 },
-              fontWeight: 700,
+              mb: { xs: 4, md: 6 },
+              mt: { xs: 2, md: 3 },
+              fontWeight: 800,
               color: 'primary.main',
-              fontSize: { xs: '1.75rem', md: '2.5rem' },
+              fontSize: { xs: '2rem', md: '3rem' },
+              letterSpacing: '-0.02em',
+              position: 'relative',
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -12,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 80,
+                height: 4,
+                background: `linear-gradient(90deg, ${alpha('#7b2cbf', 0)}, #7b2cbf, ${alpha('#2e7d32', 0.5)}, ${alpha('#7b2cbf', 0)})`,
+                borderRadius: 2,
+              },
             }}
           >
             Moments d'Engagement

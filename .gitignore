@@ -26,9 +26,24 @@ dist-ssr
 # Environment variables
 .env
 .env.local
-.env.production
+.env.production.local
+.env.development.local
 
-# Data files (souhaitez-vous garder les données privées)
-# data/
-# inscriptions.csv
+# Build files
+*.map
+*.tsbuildinfo
 
+# Backup files
+*.backup
+backup-*
+
+# PM2
+.pm2
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# VPS specific
+/var/www/
+/var/backups/
