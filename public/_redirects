@@ -1,0 +1,4 @@
+# Fichier pour Netlify - redirige toutes les routes vers index.html sauf les fichiers statiques
+/images/* 200
+/*    /index.html   200
+
