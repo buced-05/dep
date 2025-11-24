@@ -245,7 +245,7 @@ function Home() {
                 sx={{
                   color: '#ffffff',
                   fontWeight: 700,
-                  fontSize: '0.875rem',
+                  fontSize: '1rem',
                   letterSpacing: '0.05em',
                   textShadow: '0 1px 3px rgba(0,0,0,0.3)',
                 }}
@@ -261,7 +261,7 @@ function Home() {
                 fontWeight: 800,
                 mb: 2,
                 color: '#ffffff',
-                fontSize: { xs: '2rem', md: '3.5rem' },
+                fontSize: { xs: '2.25rem', md: '4rem' },
                 letterSpacing: '-0.02em',
                 lineHeight: 1.2,
                 textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
@@ -287,7 +287,7 @@ function Home() {
                 mb: 1,
                 fontWeight: 600,
                 color: '#ffffff',
-                fontSize: { xs: '1.1rem', md: '1.5rem' },
+                fontSize: { xs: '1.25rem', md: '1.75rem' },
                 letterSpacing: '0.01em',
                 textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
               }}
@@ -301,7 +301,7 @@ function Home() {
                 mb: 4, 
                 fontWeight: 400, 
                 color: alpha('#ffffff', 0.95),
-                fontSize: { xs: '0.95rem', md: '1.1rem' },
+                fontSize: { xs: '1.05rem', md: '1.25rem' },
                 letterSpacing: '0.01em',
                 textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
               }}
@@ -323,7 +323,7 @@ function Home() {
                         : alpha(bgColor, 0.25),
                       color: '#ffffff',
                       fontWeight: 700,
-                      fontSize: '0.875rem',
+                      fontSize: '1rem',
                       padding: '8px 20px',
                       border: `2px solid ${bgColor === '#ffffff' ? alpha('#ffffff', 0.5) : bgColor}`,
                       borderRadius: 2,
@@ -353,7 +353,7 @@ function Home() {
                 mt: 1,
                 backgroundColor: 'secondary.main',
                 color: 'white',
-                fontSize: { xs: '1rem', md: '1.125rem' },
+                fontSize: { xs: '1.125rem', md: '1.25rem' },
                 padding: { xs: '12px 32px', md: '14px 40px' },
                 fontWeight: 600,
                 borderRadius: 2,
@@ -397,7 +397,7 @@ function Home() {
                 <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
                   Engagement Communautaire
                 </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.95rem', opacity: 0.95 }}>
+                <Typography variant="body2" sx={{ fontSize: '1.05rem', opacity: 0.95 }}>
                   Tournoi de la Cohésion Sociale - Voueboufla
                 </Typography>
               </Box>
@@ -426,7 +426,7 @@ function Home() {
                   fontWeight: 700, 
                   color: 'primary.main', 
                   mb: 3,
-                  fontSize: { xs: '1.75rem', md: '2.25rem' },
+                  fontSize: { xs: '2rem', md: '2.5rem' },
                   letterSpacing: '-0.01em',
                 }}
               >
@@ -436,7 +436,7 @@ function Home() {
                 variant="body1" 
                 paragraph 
                 sx={{ 
-                  fontSize: { xs: '1rem', md: '1.125rem' }, 
+                  fontSize: { xs: '1.125rem', md: '1.25rem' }, 
                   color: 'text.secondary', 
                   lineHeight: 1.8,
                   mb: 3,
@@ -478,7 +478,7 @@ function Home() {
             sx={{ 
               mb: 8,
               color: 'primary.main',
-              fontSize: { xs: '1.75rem', md: '2.5rem' },
+              fontSize: { xs: '2rem', md: '2.75rem' },
             }}
           >
             Les Trois Piliers de l'Engagement
@@ -512,7 +512,7 @@ function Home() {
                       fontWeight: 700, 
                       color: 'primary.main', 
                       mb: 2,
-                      fontSize: { xs: '1.25rem', md: '1.5rem' },
+                      fontSize: { xs: '1.5rem', md: '1.75rem' },
                     }}
                   >
                     Indépendance
@@ -522,7 +522,7 @@ function Home() {
                     color="text.secondary" 
                     sx={{ 
                       lineHeight: 1.75, 
-                      fontSize: { xs: '0.95rem', md: '1rem' },
+                      fontSize: { xs: '1.05rem', md: '1.125rem' },
                     }}
                   >
                     Une voix libre, indépendante de toute influence, mais dépendante de vous. 
@@ -558,7 +558,7 @@ function Home() {
                       fontWeight: 700, 
                       color: 'primary.main', 
                       mb: 2,
-                      fontSize: { xs: '1.25rem', md: '1.5rem' },
+                      fontSize: { xs: '1.5rem', md: '1.75rem' },
                     }}
                   >
                     Transparence
@@ -568,7 +568,7 @@ function Home() {
                     color="text.secondary" 
                     sx={{ 
                       lineHeight: 1.75, 
-                      fontSize: { xs: '0.95rem', md: '1rem' },
+                      fontSize: { xs: '1.05rem', md: '1.125rem' },
                     }}
                   >
                     Restaurer la confiance entre les citoyens et leur élu. 
@@ -604,7 +604,7 @@ function Home() {
                       fontWeight: 700, 
                       color: 'secondary.main', 
                       mb: 2,
-                      fontSize: { xs: '1.25rem', md: '1.5rem' },
+                      fontSize: { xs: '1.5rem', md: '1.75rem' },
                     }}
                   >
                     Justice Sociale
@@ -614,7 +614,7 @@ function Home() {
                     color="text.secondary" 
                     sx={{ 
                       lineHeight: 1.75, 
-                      fontSize: { xs: '0.95rem', md: '1rem' },
+                      fontSize: { xs: '1.05rem', md: '1.125rem' },
                     }}
                   >
                     Défendre une répartition équitable des ressources et soutenir 
@@ -675,7 +675,7 @@ function Home() {
                 variant="body1" 
                 paragraph 
                 sx={{ 
-                  fontSize: { xs: '1rem', md: '1.125rem' }, 
+                  fontSize: { xs: '1.125rem', md: '1.25rem' }, 
                   lineHeight: 1.8, 
                   color: 'text.secondary',
                   mb: 2,
@@ -687,7 +687,7 @@ function Home() {
               <Typography 
                 variant="body1" 
                 sx={{ 
-                  fontSize: { xs: '1rem', md: '1.125rem' }, 
+                  fontSize: { xs: '1.125rem', md: '1.25rem' }, 
                   lineHeight: 1.8, 
                   color: 'text.secondary',
                 }}
@@ -716,10 +716,10 @@ function Home() {
                   color: 'white',
                 }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
                   Trophée Dr YOUAN
                 </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.9rem', opacity: 0.95 }}>
+                <Typography variant="body2" sx={{ fontSize: '1rem', opacity: 0.95 }}>
                   Tournoi de la Cohésion Sociale - 1ère Édition
                 </Typography>
               </Box>

@@ -60,22 +60,58 @@ function Inscription() {
   
   useEffect(() => {
     // Vérifier l'accès admin au chargement
-    setShowAdminPanel(checkAdminAccess())
+    const checkAccess = () => {
+      try {
+        const hasAccess = checkAdminAccess()
+        setShowAdminPanel(hasAccess)
+        return hasAccess
+      } catch (error) {
+        // En cas d'erreur, refuser l'accès
+        setShowAdminPanel(false)
+        return false
+      }
+    }
     
-    // Écouter les changements dans localStorage
-    const handleStorageChange = () => {
-      setShowAdminPanel(checkAdminAccess())
+    checkAccess()
+    
+    // Écouter les changements dans localStorage (pour les autres onglets)
+    // Utiliser une clé obfusquée pour éviter l'inspection
+    const handleStorageChange = (e) => {
+      try {
+        // Vérifier toutes les clés qui pourraient être liées
+        const keys = Object.keys(localStorage)
+        const adminKey = keys.find(k => k.includes('admin') || k.includes('clicks'))
+        if (adminKey || e.key) {
+          checkAccess()
+        }
+      } catch {
+        // Ignorer les erreurs
+      }
     }
     
     window.addEventListener('storage', handleStorageChange)
     
     // Vérifier périodiquement (pour les changements dans le même onglet)
+    // Intervalle variable pour rendre plus difficile la détection
+    let checkCount = 0
     const interval = setInterval(() => {
-      setShowAdminPanel(checkAdminAccess())
-    }, 1000)
+      checkCount++
+      // Vérifier à des intervalles variables (500-800ms)
+      if (checkCount % 2 === 0 || checkCount % 3 === 0) {
+        checkAccess()
+      }
+    }, 500)
+    
+    // Écouter les événements personnalisés pour une mise à jour immédiate
+    const handleAdminClick = () => {
+      setTimeout(() => checkAccess(), 100) // Petit délai pour éviter la détection
+    }
+    
+    window.addEventListener('adminClick', handleAdminClick)
     
     return () => {
       window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('adminClick', handleAdminClick)
       clearInterval(interval)
     }
   }, [])
@@ -433,7 +469,7 @@ function Inscription() {
                 sx={{
                   backgroundColor: 'primary.main',
                   py: 2,
-                  fontSize: '1.2rem',
+                  fontSize: '1.3rem',
                   fontWeight: 700,
                   borderRadius: 2,
                   boxShadow: '0 4px 16px rgba(255, 107, 53, 0.3)',
@@ -452,7 +488,7 @@ function Inscription() {
         </form>
       </StyledPaper>
 
-      {showAdminPanel && stats.total > 0 && (
+      {showAdminPanel && (
         <Card 
           elevation={0}
           sx={{ 
@@ -470,11 +506,12 @@ function Inscription() {
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                Total d'inscriptions : {stats.total}
+                Total d'inscriptions : {stats.total || 0}
               </Typography>
               <Button
                 variant="outlined"
                 onClick={handleExportCSV}
+                disabled={stats.total === 0}
                 sx={{ 
                   borderColor: 'primary.main', 
                   color: 'primary.main',
@@ -482,6 +519,10 @@ function Inscription() {
                   '&:hover': {
                     borderColor: 'primary.dark',
                     backgroundColor: alpha('#ff6b35', 0.1),
+                  },
+                  '&:disabled': {
+                    borderColor: alpha('#ff6b35', 0.3),
+                    color: alpha('#ff6b35', 0.5),
                   },
                 }}
               >

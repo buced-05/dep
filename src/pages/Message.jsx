@@ -349,7 +349,7 @@ function Message() {
               paragraph 
               sx={{ 
                 fontWeight: 700, 
-                fontSize: '1.25rem',
+                fontSize: '1.4rem',
                 color: 'primary.main',
                 textAlign: 'center',
                 mt: 4,

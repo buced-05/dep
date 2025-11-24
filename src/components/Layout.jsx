@@ -53,15 +53,48 @@ function Layout({ children }) {
     }
   }
 
-  const handleTitleClick = () => {
+  const handleTitleClick = (e) => {
+    // Empêcher l'inspection du gestionnaire d'événements
+    e.stopPropagation()
+    
+    // Vérification anti-bot : délai minimum entre les clics
+    const lastClick = parseInt(sessionStorage.getItem('_last_admin_click') || '0', 10)
+    const now = Date.now()
+    if (now - lastClick < 200) { // Minimum 200ms entre les clics
+      return // Ignorer les clics trop rapides (probablement automatisés)
+    }
+    sessionStorage.setItem('_last_admin_click', now.toString())
+    
     const newCount = incrementAdminClicks()
     setClickCount(newCount)
     
-    // Feedback visuel discret
-    if (newCount < 3) {
-      console.log(`Clics admin: ${newCount}/3`)
-    } else {
-      console.log('Accès admin activé')
+    // Déclencher un événement personnalisé pour notifier les autres composants
+    window.dispatchEvent(new CustomEvent('adminClick', { detail: { count: newCount } }))
+    
+    // Feedback visuel discret (pas de console.log pour éviter l'inspection)
+    if (newCount >= 3) {
+      // Notification visuelle discrète
+      const notification = document.createElement('div')
+      notification.textContent = '✓ Accès activé'
+      notification.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: #2e7d32;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 9999;
+        font-size: 14px;
+        font-weight: 600;
+        animation: slideIn 0.3s ease-out;
+      `
+      document.body.appendChild(notification)
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out'
+        setTimeout(() => notification.remove(), 300)
+      }, 2000)
     }
   }
 
@@ -115,7 +148,7 @@ function Layout({ children }) {
             sx={{ 
               flexGrow: 1, 
               fontWeight: 800,
-              fontSize: { xs: '1rem', md: '1.25rem' },
+              fontSize: { xs: '1.125rem', md: '1.5rem' },
               color: '#ff6b35',
               cursor: 'pointer',
               userSelect: 'none',
@@ -135,7 +168,7 @@ function Layout({ children }) {
                   onClick={() => handleNavigation(item.path)}
                   sx={{
                     fontWeight: location.pathname === item.path ? 700 : 500,
-                    fontSize: '0.95rem',
+                    fontSize: '1.05rem',
                     px: 2,
                     py: 1,
                     borderRadius: 2,
