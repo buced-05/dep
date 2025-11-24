@@ -16,10 +16,16 @@ import SafeImage from '../components/SafeImage'
 const MessagePaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
   background: '#ffffff',
-  border: `2px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+  border: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`,
   borderRadius: theme.spacing(3),
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+  transition: 'all 0.3s ease',
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(3),
+  },
+  '&:hover': {
+    boxShadow: '0 8px 32px rgba(123, 44, 191, 0.15)',
+    border: `2px solid ${alpha(theme.palette.primary.main, 0.3)}`,
   },
 }))
 
@@ -32,33 +38,41 @@ const ImageCard = styled(Card)(({ theme }) => ({
   overflow: 'hidden',
   borderRadius: theme.spacing(2),
   position: 'relative',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
   '& img': {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    transition: 'transform 0.5s ease',
+    transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
   },
-  '&:hover img': {
-    transform: 'scale(1.05)',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 12px 48px rgba(0, 0, 0, 0.2)',
+    '& img': {
+      transform: 'scale(1.05)',
+    },
   },
 }))
 
 const PillarCard = styled(Card)(({ theme }) => ({
   height: '100%',
-  transition: 'all 0.3s ease',
+  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
   background: '#ffffff',
-  border: `2px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+  border: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+  borderRadius: theme.spacing(2.5),
+  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
   '&:hover': {
     transform: 'translateY(-8px)',
-    boxShadow: `0 12px 32px ${alpha(theme.palette.primary.main, 0.2)}`,
-    border: `2px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+    boxShadow: `0 16px 48px ${alpha(theme.palette.primary.main, 0.25)}`,
+    border: `2px solid ${alpha(theme.palette.primary.main, 0.4)}`,
   },
 }))
 
 function Message() {
   return (
     <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="lg">
+      <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
             variant="h2" 
@@ -91,10 +105,16 @@ function Message() {
           <Grid item xs={12} md={6}>
             <ImageCard sx={{ height: 400, position: 'relative' }}>
               <SafeImage
-                src="/images/candidat-microphone.jpg"
-                alt="Dr YOUAN s'adressant à la communauté"
-                fallbackText="Dr YOUAN s'adressant à la communauté"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                src="/images/candidat.jpg?v=2"
+                alt="Dr YOUAN Bi Tra Jean Claude"
+                fallbackText="Dr YOUAN Bi Tra Jean Claude"
+                loading="eager"
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover',
+                  objectPosition: 'center top'
+                }}
               />
             </ImageCard>
           </Grid>
@@ -120,18 +140,19 @@ function Message() {
                   mb: 3,
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: `4px solid ${alpha('#6a1b9a', 0.3)}`,
-                  boxShadow: `0 8px 24px ${alpha('#6a1b9a', 0.3)}`,
+                  backgroundColor: 'transparent',
                 }}
               >
                 <SafeImage
-                  src="/images/candidat-portrait.jpg"
+                  src="/images/candidat.jpg?v=2"
                   alt="Dr YOUAN Bi Tra Jean Claude"
                   fallbackText="Photo du candidat"
+                  loading="eager"
                   style={{
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
+                    objectPosition: 'center 15%',
                   }}
                 />
               </Box>
@@ -141,7 +162,7 @@ function Message() {
               <Typography variant="h6" align="center" color="text.secondary" sx={{ mb: 3 }}>
                 Candidat Indépendant
               </Typography>
-              <Typography variant="body1" align="center" sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+              <Typography variant="body1" align="center" sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
                 Une voix libre pour défendre vos intérêts et construire ensemble l'avenir de notre circonscription.
               </Typography>
             </Paper>
@@ -150,19 +171,19 @@ function Message() {
 
         <MessagePaper elevation={0}>
           <SectionBox>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 3 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: { xs: 2, md: 3 }, fontSize: { xs: '1.375rem', md: '2rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Annonce de candidature aux élections législatives
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Chers parents, chers résidents de la circonscription électorale n°139,
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Mesdames et messieurs, chers amis,
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontWeight: 600, fontSize: '1.15rem', color: 'primary.main' }}>
+            <Typography variant="body1" paragraph sx={{ fontWeight: 600, fontSize: { xs: '1rem', md: '1.15rem' }, color: 'primary.main', lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je vous salue avec respect, gratitude et espoir.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               C'est avec une profonde humilité et un sens élevé du devoir que je m'adresse à vous 
               aujourd'hui pour annoncer <strong>Officiellement</strong> ma candidature aux élections 
               législatives de Décembre 2025, <strong>dans la circonscription de n° 139 : KANZRA, 
@@ -174,18 +195,18 @@ function Message() {
           <Divider sx={{ my: 5, borderWidth: 2, borderColor: alpha('#6a1b9a', 0.2) }} />
 
           <SectionBox>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 3 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: { xs: 2, md: 3 }, fontSize: { xs: '1.375rem', md: '2rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Pourquoi je me présente ?
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Ma candidature est d'abord un acte de foi en notre avenir collectif.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je me présente, non pas pour moi-même, mais pour vous — pour nos familles, nos jeunes, 
               nos paysans, nos commerçants, nos enseignants, nos travailleurs, nos femmes battantes 
               et nos anciens.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je me présente parce que je crois que notre circonscription mérite une voix libre, 
               une voix qui ne se plie ni aux intérêts de l'exécutif ni aux calculs politiques, 
               mais qui parle au nom du peuple, avec sincérité et courage.
@@ -195,18 +216,18 @@ function Message() {
           <Divider sx={{ my: 5, borderWidth: 2, borderColor: alpha('#6a1b9a', 0.2) }} />
 
           <SectionBox>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 3 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: { xs: 2, md: 3 }, fontSize: { xs: '1.375rem', md: '2rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Mon engagement
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je suis candidat indépendant, parce que je veux être indépendant de toute influence, 
               mais dépendant de vous.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je veux être votre porte-parole authentique à l'Assemblée nationale, un député à 
               votre écoute, présent sur le terrain, proche des réalités et des défis quotidiens.
             </Typography>
-            <Typography variant="h5" component="h3" gutterBottom sx={{ mt: 4, mb: 3, fontWeight: 700, color: 'primary.main' }}>
+            <Typography variant="h5" component="h3" gutterBottom sx={{ mt: { xs: 3, md: 4 }, mb: { xs: 2, md: 3 }, fontWeight: 700, color: 'primary.main', fontSize: { xs: '1.25rem', md: '1.75rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Mon engagement repose sur trois piliers :
             </Typography>
             <Grid container spacing={3} sx={{ mt: 2 }}>
@@ -295,14 +316,14 @@ function Message() {
           <Divider sx={{ my: 5, borderWidth: 2, borderColor: alpha('#6a1b9a', 0.2) }} />
 
           <SectionBox>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 3 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: { xs: 2, md: 3 }, fontSize: { xs: '1.375rem', md: '2rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Ma Vision
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je rêve d'une circonscription dynamique, unie et prospère, où chacun a sa place, 
               où la parole du citoyen compte, où la politique redevient un service et non un privilège.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je rêve d'un mandat parlementaire qui restaure la dignité, qui redonne espoir, 
               qui construit et qui rassemble au lieu de diviser.
             </Typography>
@@ -311,16 +332,16 @@ function Message() {
           <Divider sx={{ my: 5, borderWidth: 2, borderColor: alpha('#6a1b9a', 0.2) }} />
 
           <SectionBox>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 3 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: { xs: 2, md: 3 }, fontSize: { xs: '1.375rem', md: '2rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Appel au peuple
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Chères sœurs, chers frères, chers amis jeunes,
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Le changement que nous attendons ne viendra pas d'ailleurs.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Il commence ici, avec nous, avec notre prise de conscience, avec notre engagement, 
               notre courage, notre vote.
             </Typography>
@@ -341,7 +362,7 @@ function Message() {
                 plus encore notre voix.
               </Typography>
             </Paper>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 } }}>
               Je vous invite à marcher avec moi sur le chemin du renouveau.
             </Typography>
             <Typography 
@@ -349,22 +370,23 @@ function Message() {
               paragraph 
               sx={{ 
                 fontWeight: 700, 
-                fontSize: '1.4rem',
+                fontSize: { xs: '1.125rem', md: '1.4rem' },
                 color: 'primary.main',
                 textAlign: 'center',
-                mt: 4,
-                p: 3,
+                mt: { xs: 3, md: 4 },
+                p: { xs: 2, md: 3 },
                 background: '#ffffff',
                 borderRadius: 2,
+                lineHeight: { xs: 1.6, md: 1.8 },
               }}
             >
               Ensemble, faisons entendre la voix du peuple libre, la voix d'une circonscription 
               debout et confiante dans son destin.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8, fontWeight: 500, textAlign: 'center', mt: 3 }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 }, fontWeight: 500, textAlign: 'center', mt: { xs: 2, md: 3 } }}>
               Je compte sur chacune et chacun de vous pour porter haut cette flamme d'espoir.
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8, textAlign: 'center' }}>
+            <Typography variant="body1" paragraph sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, lineHeight: { xs: 1.6, md: 1.8 }, textAlign: 'center' }}>
               Je vous remercie.
             </Typography>
           </SectionBox>
@@ -380,10 +402,10 @@ function Message() {
               borderRadius: 3,
             }}
           >
-            <Typography variant="h5" component="p" sx={{ fontWeight: 700, color: 'primary.main', mb: 1 }}>
+            <Typography variant="h5" component="p" sx={{ fontWeight: 700, color: 'primary.main', mb: 1, fontSize: { xs: '1.25rem', md: '1.75rem' }, lineHeight: { xs: 1.4, md: 1.3 } }}>
               Dr YOUAN Bi Tra Jean Claude
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem', color: 'text.secondary' }}>
+            <Typography variant="body1" sx={{ fontSize: { xs: '0.9375rem', md: '1.1rem' }, color: 'text.secondary', lineHeight: { xs: 1.6, md: 1.8 } }}>
               Candidat indépendant aux élections législatives de Décembre 2025
             </Typography>
           </Box>

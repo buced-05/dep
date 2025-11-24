@@ -1,0 +1,60 @@
+/* Styles personnalisés pour Swiper */
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-wrapper {
+  height: 100% !important;
+}
+
+.swiper-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.swiper-slide-active {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: rgba(123, 44, 191, 0.5);
+  opacity: 1;
+  transition: all 0.3s ease;
+  z-index: 20 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #7b2cbf;
+  width: 24px;
+  border-radius: 6px;
+}
+
+.swiper-pagination {
+  bottom: 20px !important;
+  z-index: 20 !important;
+}
+
+/* Navigation buttons personnalisées */
+.swiper-button-prev-custom,
+.swiper-button-next-custom,
+.swiper-button-prev-piliers,
+.swiper-button-next-piliers {
+  display: flex !important;
+  z-index: 20 !important;
+}
+

@@ -1,0 +1,44 @@
+/* Styles spécifiques pour mobile */
+
+/* Empêcher le débordement horizontal */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Améliorer le rendu des images sur mobile */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Améliorer les zones de clic sur mobile */
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Améliorer le scroll sur mobile */
+@media (max-width: 600px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+  }
+  
+  /* Assurer que les containers prennent toute la largeur */
+  .MuiContainer-root {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+

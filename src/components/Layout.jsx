@@ -124,7 +124,7 @@ function Layout({ children }) {
         position="sticky" 
         sx={{ 
           background: 'white',
-          borderBottom: `3px solid ${alpha('#ff6b35', 0.3)}`,
+          borderBottom: `3px solid ${alpha('#7b2cbf', 0.3)}`,
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
           color: theme.palette.text.primary,
         }}
@@ -141,25 +141,40 @@ function Layout({ children }) {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography
-            variant="h6"
-            component="div"
+          <Box
             onClick={handleTitleClick}
-            sx={{ 
-              flexGrow: 1, 
-              fontWeight: 800,
-              fontSize: { xs: '1.125rem', md: '1.5rem' },
-              color: '#ff6b35',
+            onTouchStart={(e) => {
+              // Support pour les événements tactiles sur mobile
+              e.stopPropagation()
+              handleTitleClick(e)
+            }}
+            sx={{
+              flexGrow: 1,
               cursor: 'pointer',
               userSelect: 'none',
-              transition: 'opacity 0.2s ease',
-              '&:active': {
-                opacity: 0.7,
-              },
+              WebkitUserSelect: 'none',
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation',
+              minHeight: { xs: '44px', md: 'auto' }, // Zone de clic minimale pour mobile
+              display: 'flex',
+              alignItems: 'center',
+              px: { xs: 1, md: 0 },
             }}
           >
-            Dr YOUAN Bi Tra Jean Claude
-          </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ 
+                fontWeight: 800,
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.25rem' },
+                color: '#7b2cbf',
+                transition: 'opacity 0.2s ease',
+                pointerEvents: 'none', // Empêcher les événements sur le texte lui-même
+              }}
+            >
+              Dr YOUAN Bi Tra Jean Claude
+            </Typography>
+          </Box>
           {!isMobile && (
             <Box sx={{ display: 'flex', gap: 1 }}>
               {menuItems.map((item) => (
@@ -172,13 +187,13 @@ function Layout({ children }) {
                     px: 2,
                     py: 1,
                     borderRadius: 2,
-                    color: location.pathname === item.path ? '#ff6b35' : 'text.primary',
+                    color: location.pathname === item.path ? '#7b2cbf' : 'text.primary',
                     backgroundColor: location.pathname === item.path 
-                      ? alpha('#ff6b35', 0.1) 
+                      ? alpha('#7b2cbf', 0.1) 
                       : 'transparent',
                     '&:hover': {
-                      backgroundColor: alpha('#ff6b35', 0.1),
-                      color: '#ff6b35',
+                      backgroundColor: alpha('#7b2cbf', 0.1),
+                      color: '#7b2cbf',
                     },
                     transition: 'all 0.3s ease',
                   }}
@@ -204,7 +219,18 @@ function Layout({ children }) {
       >
         {drawer}
       </Drawer>
-      <Container component="main" sx={{ flex: 1, py: 4, backgroundColor: '#ffffff' }}>
+      <Container 
+        component="main" 
+        sx={{ 
+          flex: 1, 
+          py: { xs: 2, md: 4 }, 
+          px: { xs: 2, sm: 3, md: 4 },
+          backgroundColor: '#ffffff',
+          width: '100%',
+          maxWidth: '100%',
+          minHeight: '100vh',
+        }}
+      >
         {children}
       </Container>
       <Footer />

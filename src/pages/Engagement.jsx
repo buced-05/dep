@@ -44,23 +44,44 @@ const ImageCard = styled(Card)(({ theme }) => ({
   overflow: 'hidden',
   borderRadius: theme.spacing(2),
   position: 'relative',
-  '&::after': {
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  '&::before': {
     content: '""',
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    background: `linear-gradient(to bottom, transparent 0%, ${alpha(theme.palette.primary.dark, 0.6)} 100%)`,
+    background: `linear-gradient(to bottom, transparent 0%, ${alpha('#000000', 0.3)} 50%, ${alpha('#000000', 0.85)} 100%)`,
+    zIndex: 1,
+    transition: 'opacity 0.4s ease',
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '60%',
+    background: `linear-gradient(to top, ${alpha('#000000', 0.9)} 0%, ${alpha('#000000', 0.5)} 50%, transparent 100%)`,
+    zIndex: 1,
   },
   '& img': {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    transition: 'transform 0.5s ease',
+    transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
   },
-  '&:hover img': {
-    transform: 'scale(1.1)',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 12px 48px rgba(0, 0, 0, 0.2)',
+    '& img': {
+      transform: 'scale(1.05)',
+    },
+    '&::before': {
+      opacity: 0.9,
+    },
   },
 }))
 
@@ -124,7 +145,7 @@ function Engagement() {
 
   return (
     <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="lg">
+      <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <Typography 
             variant="h2" 
@@ -171,15 +192,35 @@ function Engagement() {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  p: 4,
+                  p: { xs: 3, md: 4 },
                   zIndex: 2,
                   color: 'white',
+                  background: `linear-gradient(to top, ${alpha('#000000', 0.85)} 0%, ${alpha('#000000', 0.6)} 70%, transparent 100%)`,
+                  backdropFilter: 'blur(2px)',
                 }}
               >
-                <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+                <Typography 
+                  variant="h4" 
+                  sx={{ 
+                    fontWeight: 800, 
+                    mb: 1.5,
+                    fontSize: { xs: '1.5rem', md: '2rem' },
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5)',
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.2,
+                  }}
+                >
                   Engagement Communautaire
                 </Typography>
-                <Typography variant="h6">
+                <Typography 
+                  variant="h6"
+                  sx={{
+                    fontSize: { xs: '1rem', md: '1.25rem' },
+                    textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.4)',
+                    fontWeight: 500,
+                    lineHeight: 1.4,
+                  }}
+                >
                   Le Dr YOUAN au cœur de sa communauté, présent sur le terrain
                 </Typography>
               </Box>
@@ -339,18 +380,45 @@ function Engagement() {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  p: 4,
+                  p: { xs: 3, md: 4 },
                   zIndex: 2,
                   color: 'white',
+                  background: `linear-gradient(to top, ${alpha('#000000', 0.85)} 0%, ${alpha('#000000', 0.6)} 70%, transparent 100%)`,
+                  backdropFilter: 'blur(2px)',
                 }}
               >
-                <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
+                <Typography 
+                  variant="h5" 
+                  sx={{ 
+                    fontWeight: 800, 
+                    mb: 1,
+                    fontSize: { xs: '1.25rem', md: '1.75rem' },
+                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5)',
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.2,
+                  }}
+                >
                   Trophée Dr YOUAN
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 1 }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    mb: 1,
+                    fontSize: { xs: '1rem', md: '1.125rem' },
+                    textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.4)',
+                    fontWeight: 500,
+                  }}
+                >
                   Tournoi de la Cohésion Sociale
                 </Typography>
-                <Typography variant="body2">
+                <Typography 
+                  variant="body2"
+                  sx={{
+                    fontSize: { xs: '0.9375rem', md: '1rem' },
+                    textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.4)',
+                    fontWeight: 500,
+                  }}
+                >
                   1ère Édition - Voueboufla 2025
                 </Typography>
               </Box>

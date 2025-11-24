@@ -3,28 +3,42 @@ import { Box, Typography } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import ImageIcon from '@mui/icons-material/Image'
 
-function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
+function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, loading = 'eager', ...props }) {
   const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [loadingState, setLoadingState] = useState(true)
   const [imageLoaded, setImageLoaded] = useState(false)
   const imgRef = useRef(null)
 
   useEffect(() => {
-    // Vérifier si l'image est déjà chargée (cache du navigateur)
-    if (imgRef.current && imgRef.current.complete) {
-      setLoading(false)
-      setImageLoaded(true)
-    }
+    // Réinitialiser les états quand src change
+    setError(false)
+    setLoadingState(true)
+    setImageLoaded(false)
+
+    // Vérifier si l'image existe déjà dans le cache après un court délai
+    const checkCache = setTimeout(() => {
+      if (imgRef.current && imgRef.current.complete) {
+        if (imgRef.current.naturalHeight !== 0) {
+          setLoadingState(false)
+          setImageLoaded(true)
+        } else {
+          setError(true)
+          setLoadingState(false)
+        }
+      }
+    }, 50)
+
+    return () => clearTimeout(checkCache)
   }, [src])
 
   const handleError = () => {
     setError(true)
-    setLoading(false)
+    setLoadingState(false)
     setImageLoaded(false)
   }
 
   const handleLoad = () => {
-    setLoading(false)
+    setLoadingState(false)
     setImageLoaded(true)
   }
 
@@ -38,15 +52,15 @@ function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: alpha('#6a1b9a', 0.05),
-          border: `2px dashed ${alpha('#6a1b9a', 0.2)}`,
+          backgroundColor: alpha('#7b2cbf', 0.05),
+          border: `2px dashed ${alpha('#7b2cbf', 0.2)}`,
           borderRadius: 2,
           minHeight: 200,
           position: 'relative',
           ...sx,
         }}
       >
-        <ImageIcon sx={{ fontSize: 60, color: alpha('#6a1b9a', 0.3), mb: 2 }} />
+        <ImageIcon sx={{ fontSize: 60, color: alpha('#7b2cbf', 0.3), mb: 2 }} />
         {fallbackText && (
           <Typography variant="body2" color="text.secondary" align="center" sx={{ px: 2 }}>
             {fallbackText}
@@ -58,7 +72,7 @@ function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
 
   return (
     <Box sx={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', ...sx }}>
-      {loading && !error && (
+      {loadingState && !error && (
         <Box
           sx={{
             position: 'absolute',
@@ -69,11 +83,11 @@ function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: alpha('#6a1b9a', 0.05),
-            zIndex: 10,
+            backgroundColor: alpha('#7b2cbf', 0.05),
+            zIndex: 2,
           }}
         >
-          <ImageIcon sx={{ fontSize: 40, color: alpha('#6a1b9a', 0.3) }} />
+          <ImageIcon sx={{ fontSize: 40, color: alpha('#7b2cbf', 0.3) }} />
         </Box>
       )}
       <img
@@ -82,17 +96,20 @@ function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
         alt={alt}
         onError={handleError}
         onLoad={handleLoad}
+        loading={loading}
+        decoding="async"
         style={{
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          display: error ? 'none' : (imageLoaded || !loading ? 'block' : 'none'),
-          opacity: imageLoaded ? 1 : (loading ? 0 : 1),
+          display: 'block',
+          opacity: imageLoaded ? 1 : (loadingState ? 0.5 : 1),
           transition: 'opacity 0.3s ease',
           position: style.position || 'absolute',
           top: 0,
           left: 0,
-          zIndex: 0,
+          zIndex: 1,
+          maxWidth: '100%',
           ...style,
         }}
         {...props}
@@ -102,4 +119,3 @@ function SafeImage({ src, alt, fallbackText, sx = {}, style = {}, ...props }) {
 }
 
 export default SafeImage
-

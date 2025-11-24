@@ -6,6 +6,8 @@ import App from './App'
 import theme from './theme'
 import { initAntiInspection } from './utils/antiInspection'
 import { checkAdminAccess } from './utils/security'
+import './styles/mobile.css'
+import './styles/swiper.css'
 
 // Initialiser les protections anti-inspection
 initAntiInspection()

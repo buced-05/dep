@@ -27,11 +27,16 @@ import { checkAdminAccess, sanitizeInput, validateInscriptionData, checkRateLimi
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(5),
   background: '#ffffff',
-  border: `1px solid ${alpha('#ff6b35', 0.15)}`,
-  borderRadius: theme.spacing(2),
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+  border: `2px solid ${alpha('#ff6b35', 0.2)}`,
+  borderRadius: theme.spacing(3),
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+  transition: 'all 0.3s ease',
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(3),
+  },
+  '&:hover': {
+    boxShadow: '0 8px 32px rgba(123, 44, 191, 0.15)',
+    border: `2px solid ${alpha('#7b2cbf', 0.3)}`,
   },
 }))
 
@@ -197,7 +202,7 @@ function Inscription() {
 
   if (submitted) {
     return (
-      <Container maxWidth="md">
+      <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <StyledPaper elevation={3}>
           <Box sx={{ textAlign: 'center', py: 6 }}>
             <CheckCircleIcon sx={{ fontSize: 80, color: 'success.main', mb: 2 }} />
@@ -218,7 +223,7 @@ function Inscription() {
 
   return (
     <Box sx={{ backgroundColor: 'background.default', minHeight: '100vh', py: 4 }}>
-      <Container maxWidth="md">
+      <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography 
             variant="h2" 
@@ -237,7 +242,7 @@ function Inscription() {
                 transform: 'translateX(-50%)',
                 width: 100,
                 height: 4,
-                background: `linear-gradient(90deg, ${alpha('#ff6b35', 0)}, #ff6b35, ${alpha('#2e7d32', 0.5)}, ${alpha('#ff6b35', 0)})`,
+                background: `linear-gradient(90deg, ${alpha('#7b2cbf', 0)}, #7b2cbf, ${alpha('#2e7d32', 0.5)}, ${alpha('#7b2cbf', 0)})`,
                 borderRadius: 2,
               },
             }}
@@ -250,7 +255,7 @@ function Inscription() {
         </Box>
 
       <StyledPaper elevation={0}>
-        <Typography variant="body1" paragraph sx={{ mb: 4, fontSize: '1.15rem', textAlign: 'center', color: 'text.secondary', lineHeight: 1.8 }}>
+        <Typography variant="body1" paragraph sx={{ mb: { xs: 3, md: 4 }, fontSize: { xs: '0.9375rem', md: '1.15rem' }, textAlign: 'center', color: 'text.secondary', lineHeight: { xs: 1.6, md: 1.8 }, px: { xs: 1, md: 0 } }}>
           Votre engagement compte pour faire entendre la voix du peuple libre. 
           Inscrivez-vous pour manifester votre soutien, votre volontariat et votre bénévolat.
         </Typography>
@@ -447,12 +452,12 @@ function Inscription() {
                 sx={{
                   p: 3,
                   borderRadius: 2,
-                  background: `linear-gradient(135deg, ${alpha('#ff6b35', 0.05)} 0%, ${alpha('#2e7d32', 0.05)} 100%)`,
-                  border: `1px solid ${alpha('#ff6b35', 0.15)}`,
+                  background: `linear-gradient(135deg, ${alpha('#7b2cbf', 0.05)} 0%, ${alpha('#2e7d32', 0.05)} 100%)`,
+                  border: `1px solid ${alpha('#7b2cbf', 0.15)}`,
                 }}
               >
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                  <strong style={{ color: '#ff6b35' }}>Consentement RGPD :</strong> Les données collectées sont utilisées 
+                  <strong style={{ color: '#7b2cbf' }}>Consentement RGPD :</strong> Les données collectées sont utilisées 
                   uniquement dans le cadre de la campagne électorale pour vous contacter et 
                   vous informer des actualités. Vous pouvez à tout moment demander la suppression 
                   de vos données en nous contactant.
@@ -472,10 +477,10 @@ function Inscription() {
                   fontSize: '1.3rem',
                   fontWeight: 700,
                   borderRadius: 2,
-                  boxShadow: '0 4px 16px rgba(255, 107, 53, 0.3)',
+                  boxShadow: '0 4px 16px rgba(123, 44, 191, 0.3)',
                   '&:hover': {
                     backgroundColor: 'primary.dark',
-                    boxShadow: '0 6px 20px rgba(255, 107, 53, 0.4)',
+                    boxShadow: '0 6px 20px rgba(123, 44, 191, 0.4)',
                     transform: 'translateY(-1px)',
                   },
                   transition: 'all 0.3s ease',
@@ -493,8 +498,8 @@ function Inscription() {
           elevation={0}
           sx={{ 
             mt: 6,
-            background: `linear-gradient(135deg, ${alpha('#ff6b35', 0.08)} 0%, ${alpha('#2e7d32', 0.08)} 100%)`,
-            border: `2px solid ${alpha('#ff6b35', 0.2)}`,
+            background: `linear-gradient(135deg, ${alpha('#7b2cbf', 0.08)} 0%, ${alpha('#2e7d32', 0.08)} 100%)`,
+            border: `2px solid ${alpha('#7b2cbf', 0.2)}`,
             borderRadius: 3,
             animation: 'fadeIn 0.5s ease-in',
             '@keyframes fadeIn': {
@@ -518,11 +523,11 @@ function Inscription() {
                   fontWeight: 600,
                   '&:hover': {
                     borderColor: 'primary.dark',
-                    backgroundColor: alpha('#ff6b35', 0.1),
+                    backgroundColor: alpha('#7b2cbf', 0.1),
                   },
                   '&:disabled': {
-                    borderColor: alpha('#ff6b35', 0.3),
-                    color: alpha('#ff6b35', 0.5),
+                    borderColor: alpha('#7b2cbf', 0.3),
+                    color: alpha('#7b2cbf', 0.5),
                   },
                 }}
               >
